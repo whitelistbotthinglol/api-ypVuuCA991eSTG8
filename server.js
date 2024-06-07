@@ -6,7 +6,7 @@ const port = 3000;
 
 // Middleware to check for custom header
 const checkHeader = (req, res, next) => {
-  const customHeader = req.headers['user-agent']; // Change header name here
+  const customHeader = req.headers['client']; // Change header name here
   if (customHeader === 'roadblocks') { // Change expected value here
     next();
   } else {
