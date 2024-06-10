@@ -33,7 +33,7 @@ local MainSection = MainTab:CreateSection("Main")
 
 local sliderws = MainTab:CreateSlider({
    Name = "WalkSpeed Slider",
-   Range = {1, 100},
+   Range = {16, 100},
    Increment = 1,
    Suffix = "Speed",
    CurrentValue = 16,
@@ -55,6 +55,7 @@ local function NoclipLoop()
     end
 end
 
+local shown = false
 local nocliptoggle = MainTab:CreateToggle({
     Name = "Noclip",
     CurrentValue = false,
@@ -62,18 +63,21 @@ local nocliptoggle = MainTab:CreateToggle({
     Callback = function(Value)
         task.wait(0.1)
         if Value == true then
-            Rayfield:Notify({
-                Title = "Noclip",
-                Content = "Noclip is kinda buggy so use at your own risk",
-                Duration = 5,
-                Image = 13047715178,
-                Actions = {
-                   Ignore = {
-                      Name = "Okay!",
-                      Callback = function() end
-                },
-             },
-             })
+			if shown == false then
+				Rayfield:Notify({
+					Title = "Noclip",
+					Content = "Noclip is kinda buggy so use at your own risk",
+					Duration = 5,
+					Image = 13047715178,
+					Actions = {
+					   Ignore = {
+						  Name = "Okay!",
+						  Callback = function() end
+					},
+				 },
+				 })
+			end
+			shown = true
             Noclipping = RunService.Stepped:Connect(NoclipLoop)
         else
             if Noclipping then
@@ -83,12 +87,12 @@ local nocliptoggle = MainTab:CreateToggle({
     end,
 })
 
-function getRoot(char)
+local function getRoot(char)
 	local rootPart = char:FindFirstChild('HumanoidRootPart') or char:FindFirstChild('Torso') or char:FindFirstChild('UpperTorso')
 	return rootPart
 end
 
-function round(num, numDecimalPlaces)
+local function round(num, numDecimalPlaces)
 	local mult = 10^(numDecimalPlaces or 0)
 	return math.floor(num * mult + 0.5) / mult
 end
